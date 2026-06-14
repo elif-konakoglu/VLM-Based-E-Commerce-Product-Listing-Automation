@@ -43,68 +43,75 @@ export default function ChatPanel({ imageId, productId, context }: ChatPanelProp
 
   if (!imageId) {
     return (
-      <div className="rounded-lg border bg-gray-50 p-4 text-center text-sm text-gray-500">
-        <MessageSquare className="mx-auto h-6 w-6 text-gray-300" />
-        <p className="mt-2">Upload an image to chat with AI</p>
+      <div className="rounded-2xl border border-dashed border-border bg-secondary/30 p-5 text-center">
+        <MessageSquare className="mx-auto h-6 w-6 text-muted-foreground" />
+        <p className="mt-2 text-sm text-muted-foreground">Upload an image to chat with AI</p>
       </div>
     );
   }
 
   return (
-    <div className="rounded-lg border bg-white">
+    <div className="rounded-2xl border border-border bg-card shadow-sm overflow-hidden">
       <button
         onClick={() => setExpanded(!expanded)}
-        className="flex w-full items-center justify-between p-4 text-left"
+        className="flex w-full items-center justify-between p-4 text-left hover:bg-secondary/50 transition-colors"
       >
-        <div className="flex items-center gap-2">
-          <MessageSquare className="h-4 w-4 text-primary" />
-          <span className="text-sm font-medium">Ask AI about this product</span>
+        <div className="flex items-center gap-2.5">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
+            <MessageSquare className="h-4 w-4 text-primary" />
+          </div>
+          <span className="text-sm font-semibold text-card-foreground">Ask AI about this product</span>
         </div>
         {expanded ? (
-          <ChevronDown className="h-4 w-4 text-gray-400" />
+          <ChevronDown className="h-4 w-4 text-muted-foreground" />
         ) : (
-          <ChevronUp className="h-4 w-4 text-gray-400" />
+          <ChevronUp className="h-4 w-4 text-muted-foreground" />
         )}
       </button>
 
       {expanded && (
-        <div className="border-t">
+        <div className="border-t border-border">
           <div className="h-64 overflow-y-auto p-4 space-y-3">
             {history?.items.map((msg: ChatMessage) => (
               <div
                 key={msg.id}
-                className={`rounded-lg px-3 py-2 text-sm ${
+                className={`rounded-xl px-3.5 py-2.5 text-sm ${
                   msg.role === "admin"
-                    ? "ml-8 bg-primary/10 text-gray-900"
-                    : "mr-8 bg-gray-100 text-gray-700"
+                    ? "ml-8 bg-primary/10 text-card-foreground border border-primary/10"
+                    : "mr-8 bg-secondary text-card-foreground"
                 }`}
               >
-                <span className="text-xs font-medium text-gray-500">
-                  {msg.role === "admin" ? "You" : "AI"}
+                <span className={`text-[10px] font-bold uppercase tracking-wider ${
+                  msg.role === "admin" ? "text-primary" : "text-muted-foreground"
+                }`}>
+                  {msg.role === "admin" ? "You" : "AI Assistant"}
                 </span>
-                <p className="mt-0.5">{msg.message}</p>
+                <p className="mt-1">{msg.message}</p>
               </div>
             ))}
             {sendMutation.isPending && (
-              <div className="mr-8 rounded-lg bg-gray-100 px-3 py-2 text-sm">
-                <Loader2 className="h-4 w-4 animate-spin text-gray-400" />
+              <div className="mr-8 rounded-xl bg-secondary px-3.5 py-3">
+                <div className="flex items-center gap-2">
+                  <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                  <span className="text-xs text-muted-foreground">AI is thinking...</span>
+                </div>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
-          <div className="flex gap-2 border-t p-3">
+          <div className="flex gap-2 border-t border-border p-3">
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSend()}
               placeholder="Ask about style, material, category..."
-              className="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+              className="flex-1 rounded-xl border border-border bg-background px-3.5 py-2.5 text-sm text-card-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
               disabled={sendMutation.isPending}
             />
             <button
               onClick={handleSend}
               disabled={!input.trim() || sendMutation.isPending}
-              className="rounded-md bg-primary px-3 py-2 text-white disabled:opacity-50"
+              className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground disabled:opacity-50 hover:bg-primary/90 transition-colors shadow-sm"
             >
               <Send className="h-4 w-4" />
             </button>

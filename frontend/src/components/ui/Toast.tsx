@@ -56,18 +56,18 @@ function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: () => void }
   };
 
   const bg = {
-    success: "border-emerald-200 bg-emerald-50",
-    error: "border-red-200 bg-red-50",
-    info: "border-blue-200 bg-blue-50",
+    success: "border-emerald-500/20 bg-card",
+    error: "border-red-500/20 bg-card",
+    info: "border-blue-500/20 bg-card",
   };
 
   return (
     <div
-      className={`flex items-center gap-3 rounded-lg border px-4 py-3 shadow-lg animate-in slide-in-from-right ${bg[toast.type]}`}
+      className={`flex items-center gap-3 rounded-xl border px-4 py-3 shadow-xl shadow-black/10 animate-fade-in ${bg[toast.type]}`}
     >
       {icons[toast.type]}
-      <p className="text-sm font-medium text-gray-800">{toast.message}</p>
-      <button onClick={onDismiss} className="ml-2 text-gray-400 hover:text-gray-600">
+      <p className="text-sm font-medium text-card-foreground">{toast.message}</p>
+      <button onClick={onDismiss} className="ml-2 text-muted-foreground hover:text-card-foreground transition-colors">
         <X className="h-4 w-4" />
       </button>
     </div>

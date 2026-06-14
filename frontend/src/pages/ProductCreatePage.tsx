@@ -217,25 +217,28 @@ export default function ProductCreatePage() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-lg font-semibold text-gray-900">Create New Product</h2>
+        <div>
+          <h2 className="text-xl font-bold text-card-foreground">Create New Product</h2>
+          <p className="text-sm text-muted-foreground mt-0.5">Upload images and let AI fill the details</p>
+        </div>
         <div className="flex gap-2">
           <button
             onClick={() => setShowPreview(true)}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-border px-4 py-2.5 text-sm font-medium text-card-foreground hover:bg-secondary transition-colors"
           >
             <Eye className="h-4 w-4" /> Preview
           </button>
           <button
             onClick={() => saveMutation.mutate("draft")}
             disabled={saveMutation.isPending}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-border px-4 py-2.5 text-sm font-medium text-card-foreground hover:bg-secondary disabled:opacity-50 transition-colors"
           >
             <Save className="h-4 w-4" /> Save Draft
           </button>
           <button
             onClick={() => saveMutation.mutate("published")}
             disabled={saveMutation.isPending}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-sm font-medium text-white hover:bg-primary/90 disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:opacity-50 shadow-md shadow-primary/20 transition-colors"
           >
             <Rocket className="h-4 w-4" /> Publish
           </button>
@@ -245,8 +248,8 @@ export default function ProductCreatePage() {
       <div className="grid gap-6 lg:grid-cols-5">
         {/* Left column - Images & AI */}
         <div className="space-y-4 lg:col-span-2">
-          <div className="rounded-lg border bg-white p-5">
-            <h3 className="text-sm font-medium text-gray-900 mb-3">Product Images</h3>
+          <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+            <h3 className="text-sm font-semibold text-card-foreground mb-3">Product Images</h3>
             <ImageUploader
               images={images}
               mainImageId={mainImageId}
@@ -255,11 +258,11 @@ export default function ProductCreatePage() {
             />
           </div>
 
-          <div className="rounded-lg border bg-white p-5">
+          <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
             <button
               onClick={() => analyzeMutation.mutate()}
               disabled={!mainImageId || analyzeMutation.isPending}
-              className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-white hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[hsl(var(--gradient-start))] to-[hsl(var(--gradient-end))] px-4 py-3 text-sm font-semibold text-white hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed shadow-md shadow-primary/20 transition-all"
             >
               {analyzeMutation.isPending ? (
                 <>
@@ -272,19 +275,19 @@ export default function ProductCreatePage() {
               )}
             </button>
             {!mainImageId && (
-              <p className="mt-2 text-xs text-gray-500 text-center">
+              <p className="mt-2 text-xs text-muted-foreground text-center">
                 Upload and select a main image first
               </p>
             )}
             {error && (
-              <div className="mt-3 rounded-lg border border-red-200 bg-red-50 p-3">
+              <div className="mt-3 rounded-xl border border-destructive/30 bg-destructive/10 p-3">
                 <div className="flex items-start gap-2">
-                  <AlertTriangle className="h-4 w-4 text-red-500 mt-0.5" />
+                  <AlertTriangle className="h-4 w-4 text-destructive mt-0.5" />
                   <div>
-                    <p className="text-sm text-red-700">{error}</p>
+                    <p className="text-sm text-destructive">{error}</p>
                     <button
                       onClick={() => analyzeMutation.mutate()}
-                      className="mt-1 text-xs font-medium text-red-600 hover:text-red-800"
+                      className="mt-1 text-xs font-medium text-destructive hover:underline"
                     >
                       Retry analysis
                     </button>
@@ -293,7 +296,7 @@ export default function ProductCreatePage() {
               </div>
             )}
             {suggestions && (
-              <p className="mt-2 text-xs text-emerald-600 text-center">
+              <p className="mt-2 text-xs text-emerald-600 dark:text-emerald-400 text-center font-medium">
                 AI suggestions applied. Review and edit below.
               </p>
             )}
@@ -306,11 +309,11 @@ export default function ProductCreatePage() {
         </div>
 
         {/* Right column - Form */}
-        <div className="rounded-lg border bg-white p-5 lg:col-span-3">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-medium text-gray-900">Product Details</h3>
+        <div className="rounded-2xl border border-border bg-card p-5 lg:col-span-3 shadow-sm">
+          <div className="flex items-center justify-between mb-5">
+            <h3 className="text-sm font-semibold text-card-foreground">Product Details</h3>
             {suggestions && (
-              <span className="text-xs text-gray-500">AI suggestions applied — edit freely</span>
+              <span className="text-xs text-muted-foreground bg-secondary px-2.5 py-1 rounded-lg">AI suggestions applied</span>
             )}
           </div>
 
@@ -325,8 +328,8 @@ export default function ProductCreatePage() {
 
               return (
                 <div key={fieldKey}>
-                  <div className="flex items-center justify-between mb-1">
-                    <label className="block text-sm font-medium text-gray-700">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-sm font-medium text-card-foreground">
                       {FIELD_LABELS[fieldKey]}
                     </label>
                     <div className="flex items-center gap-2">
@@ -336,7 +339,7 @@ export default function ProductCreatePage() {
                           onClick={() => handleRegenerateField(fieldKey)}
                           disabled={isRegenerating}
                           title={`Regenerate ${FIELD_LABELS[fieldKey]}`}
-                          className="inline-flex items-center gap-1 rounded-md border border-gray-200 px-1.5 py-0.5 text-xs text-gray-500 hover:border-primary hover:text-primary disabled:opacity-50 transition-colors"
+                          className="inline-flex items-center gap-1 rounded-lg border border-border px-2 py-1 text-xs text-muted-foreground hover:border-primary hover:text-primary disabled:opacity-50 transition-colors"
                         >
                           <RefreshCw className={`h-3 w-3 ${isRegenerating ? "animate-spin" : ""}`} />
                         </button>
@@ -353,8 +356,8 @@ export default function ProductCreatePage() {
                           ? "One bullet point per line"
                           : `Enter ${FIELD_LABELS[fieldKey].toLowerCase()}...`
                       }
-                      className={`w-full rounded-md border px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary ${
-                        isLowConfidence ? "border-amber-300 bg-amber-50/50" : "border-gray-300"
+                      className={`w-full rounded-xl border bg-background px-3.5 py-2.5 text-sm text-card-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all ${
+                        isLowConfidence ? "border-amber-400/50 bg-amber-500/5" : "border-border"
                       }`}
                     />
                   ) : (
@@ -363,13 +366,13 @@ export default function ProductCreatePage() {
                       value={form[fieldKey]}
                       onChange={(e) => updateField(fieldKey, e.target.value)}
                       placeholder={`Enter ${FIELD_LABELS[fieldKey].toLowerCase()}...`}
-                      className={`w-full rounded-md border px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary ${
-                        isLowConfidence ? "border-amber-300 bg-amber-50/50" : "border-gray-300"
+                      className={`w-full rounded-xl border bg-background px-3.5 py-2.5 text-sm text-card-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all ${
+                        isLowConfidence ? "border-amber-400/50 bg-amber-500/5" : "border-border"
                       }`}
                     />
                   )}
                   {isLowConfidence && (
-                    <p className="mt-1 text-xs text-amber-600">
+                    <p className="mt-1 text-xs text-amber-600 dark:text-amber-400">
                       Low confidence — please verify this suggestion
                     </p>
                   )}

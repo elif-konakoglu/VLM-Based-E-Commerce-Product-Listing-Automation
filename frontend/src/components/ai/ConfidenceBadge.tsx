@@ -14,39 +14,30 @@ function parsePercentage(value: string): number {
 export default function ConfidenceBadge({ percentage, className }: ConfidenceBadgeProps) {
   const num = parsePercentage(percentage);
 
-  let level: "high" | "medium" | "low";
   let Icon: typeof CheckCircle;
   let colorClasses: string;
 
   if (num >= 80) {
-    level = "high";
     Icon = CheckCircle;
-    colorClasses = "bg-emerald-50 text-emerald-700 border-emerald-200";
+    colorClasses = "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20";
   } else if (num >= 50) {
-    level = "medium";
     Icon = Info;
-    colorClasses = "bg-amber-50 text-amber-700 border-amber-200";
+    colorClasses = "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20";
   } else {
-    level = "low";
     Icon = AlertTriangle;
-    colorClasses = "bg-red-50 text-red-700 border-red-200";
+    colorClasses = "bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20";
   }
 
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium",
+        "inline-flex items-center gap-1 rounded-lg border px-2 py-0.5 text-[11px] font-semibold",
         colorClasses,
         className
       )}
     >
       <Icon className="h-3 w-3" />
       {percentage}
-      <span className="hidden sm:inline">
-        {level === "high" && "High"}
-        {level === "medium" && "Medium"}
-        {level === "low" && "Low"}
-      </span>
     </span>
   );
 }

@@ -100,18 +100,17 @@ export default function ImageUploader({
 
   return (
     <div className="space-y-4">
-      {/* Upload zone */}
       <div
         onClick={() => !uploading && fileInputRef.current?.click()}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
-        className={`flex cursor-pointer items-center justify-center rounded-lg border-2 border-dashed p-8 transition-colors ${
+        className={`flex cursor-pointer items-center justify-center rounded-xl border-2 border-dashed p-8 transition-all duration-200 ${
           uploading
-            ? "border-gray-200 bg-gray-50 cursor-wait"
+            ? "border-border bg-secondary/50 cursor-wait"
             : dragOver
-            ? "border-primary bg-primary/5"
-            : "border-gray-300 hover:border-primary/50 hover:bg-gray-50"
+            ? "border-primary bg-primary/5 scale-[1.01]"
+            : "border-border hover:border-primary/50 hover:bg-secondary/50"
         }`}
       >
         <input
@@ -126,16 +125,18 @@ export default function ImageUploader({
           {uploading ? (
             <Loader2 className="mx-auto h-8 w-8 animate-spin text-primary" />
           ) : (
-            <Upload className="mx-auto h-8 w-8 text-gray-400" />
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+              <Upload className="h-5 w-5 text-primary" />
+            </div>
           )}
-          <p className="mt-2 text-sm text-gray-600">
+          <p className="mt-3 text-sm font-medium text-card-foreground">
             {uploading
               ? "Uploading..."
               : dragOver
               ? "Drop images here"
-              : "Drop images here or click to browse"}
+              : "Drop images or click to browse"}
           </p>
-          <p className="mt-1 text-xs text-gray-400">JPEG, PNG, or WebP up to 10MB</p>
+          <p className="mt-1 text-xs text-muted-foreground">JPEG, PNG, or WebP up to 10MB</p>
           {!uploading && (
             <button
               type="button"
@@ -143,7 +144,7 @@ export default function ImageUploader({
                 e.stopPropagation();
                 fileInputRef.current?.click();
               }}
-              className="mt-3 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90 transition-colors"
+              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
             >
               <Upload className="h-4 w-4" />
               Browse Files
@@ -152,24 +153,22 @@ export default function ImageUploader({
         </div>
       </div>
 
-      {/* Error message */}
       {error && (
-        <div className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+        <div className="flex items-center gap-2 rounded-xl border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive">
           <AlertCircle className="h-4 w-4 flex-shrink-0" />
           <span>{error}</span>
         </div>
       )}
 
-      {/* Image gallery */}
       {images.length > 0 && (
         <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
           {images.map((img) => (
             <div
               key={img.id}
-              className={`group relative aspect-square cursor-pointer overflow-hidden rounded-lg border-2 transition-all ${
+              className={`group relative aspect-square cursor-pointer overflow-hidden rounded-xl border-2 transition-all duration-200 ${
                 mainImageId === img.id
-                  ? "border-primary ring-2 ring-primary/20"
-                  : "border-gray-200 hover:border-gray-300"
+                  ? "border-primary ring-2 ring-primary/20 shadow-md shadow-primary/10"
+                  : "border-border hover:border-primary/30"
               }`}
               onClick={() => onMainImageChange(img.id)}
             >
@@ -179,7 +178,7 @@ export default function ImageUploader({
                 className="h-full w-full object-cover"
               />
               {mainImageId === img.id && (
-                <div className="absolute left-1 top-1 rounded-full bg-primary p-1">
+                <div className="absolute left-1.5 top-1.5 rounded-lg bg-primary p-1 shadow-sm">
                   <Star className="h-3 w-3 fill-white text-white" />
                 </div>
               )}
@@ -188,7 +187,7 @@ export default function ImageUploader({
                   e.stopPropagation();
                   removeImage(img.id);
                 }}
-                className="absolute right-1 top-1 rounded-full bg-black/50 p-1 opacity-0 transition-opacity group-hover:opacity-100"
+                className="absolute right-1.5 top-1.5 rounded-lg bg-black/60 p-1 opacity-0 transition-opacity group-hover:opacity-100"
               >
                 <X className="h-3 w-3 text-white" />
               </button>
@@ -198,7 +197,7 @@ export default function ImageUploader({
       )}
 
       {images.length > 0 && (
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-muted-foreground">
           <Star className="mr-1 inline h-3 w-3" />
           Click an image to set it as the main product image
         </p>
