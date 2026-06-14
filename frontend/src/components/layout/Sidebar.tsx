@@ -19,7 +19,7 @@ export default function Sidebar({ onClose }: SidebarProps) {
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[hsl(var(--gradient-start))] to-[hsl(var(--gradient-end))]">
             <Sparkles className="h-4 w-4 text-white" />
           </div>
-          <span className="text-base font-bold tracking-tight text-white">AI Textile</span>
+          <span className="text-base font-bold tracking-tight text-white">StitchSense</span>
         </div>
         {onClose && (
           <button onClick={onClose} className="rounded-lg p-1 hover:bg-white/10 lg:hidden">

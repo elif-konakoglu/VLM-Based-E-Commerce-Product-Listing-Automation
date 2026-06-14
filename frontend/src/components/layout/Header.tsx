@@ -23,7 +23,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
   if (!title && location.pathname.includes("/edit")) {
     title = "Edit Product";
   }
-  title = title || "AI Textile Admin";
+  title = title || "StitchSense";
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {

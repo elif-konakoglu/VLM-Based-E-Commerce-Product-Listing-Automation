@@ -30,7 +30,7 @@ export default function DashboardPage() {
             <Sparkles className="h-5 w-5" />
             <span className="text-sm font-medium text-white/80">AI-Powered Dashboard</span>
           </div>
-          <h1 className="text-2xl font-bold md:text-3xl">Welcome to AI Textile Admin</h1>
+          <h1 className="text-2xl font-bold md:text-3xl">Welcome to StitchSense</h1>
           <p className="mt-2 max-w-lg text-sm text-white/70">
             Upload product images and let AI generate categories, descriptions, and marketing copy. Review, edit, and publish with confidence.
           </p>

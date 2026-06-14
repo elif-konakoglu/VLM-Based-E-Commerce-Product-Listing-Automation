@@ -1,12 +1,12 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
-import { Loader2, Eye, Save, Rocket, Sparkles, AlertTriangle, ArrowLeft, RefreshCw } from "lucide-react";
+import { Loader2, Eye, Save, Rocket, Sparkles, AlertTriangle, ArrowLeft, RefreshCw, Archive } from "lucide-react";
 import ImageUploader from "@/components/upload/ImageUploader";
 import ConfidenceBadge from "@/components/ai/ConfidenceBadge";
 import ChatPanel from "@/components/ai/ChatPanel";
 import ProductPreview from "@/components/preview/ProductPreview";
-import { getProduct, updateProduct, publishProduct, draftProduct } from "@/api/products";
+import { getProduct, updateProduct, publishProduct, draftProduct, archiveProduct } from "@/api/products";
 import { analyzeImage, regenerateField } from "@/api/ai";
 import { useToast } from "@/components/ui/Toast";
 import type { ProductImage, AISuggestions, AISuggestionField } from "@/types";
@@ -179,6 +179,17 @@ export default function ProductEditPage() {
     onSuccess: () => navigate("/products"),
   });
 
+  const archiveMutation = useMutation({
+    mutationFn: () => archiveProduct(id!),
+    onSuccess: () => {
+      addToast("success", "Product archived");
+      navigate("/products");
+    },
+    onError: (err: { message?: string }) => {
+      addToast("error", err.message || "Failed to archive product");
+    },
+  });
+
   function fieldValue(field: AISuggestionField): string | null {
     if (Array.isArray(field?.value)) return field.value.join(", ");
     return field?.value as string | null;
@@ -256,9 +267,14 @@ export default function ProductEditPage() {
               <Rocket className="h-4 w-4" /> Publish
             </button>
           ) : (
-            <button onClick={() => draftMutation.mutate()} disabled={draftMutation.isPending} className="inline-flex items-center gap-1.5 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-2.5 text-sm font-medium text-amber-600 dark:text-amber-400 hover:bg-amber-500/20 disabled:opacity-50 transition-colors">
-              Move to Draft
-            </button>
+            <>
+              <button onClick={() => draftMutation.mutate()} disabled={draftMutation.isPending} className="inline-flex items-center gap-1.5 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-2.5 text-sm font-medium text-amber-600 dark:text-amber-400 hover:bg-amber-500/20 disabled:opacity-50 transition-colors">
+                Move to Draft
+              </button>
+              <button onClick={() => archiveMutation.mutate()} disabled={archiveMutation.isPending} className="inline-flex items-center gap-1.5 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-2.5 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-500/20 disabled:opacity-50 transition-colors">
+                <Archive className="h-4 w-4" /> Archive
+              </button>
+            </>
           )}
         </div>
       </div>

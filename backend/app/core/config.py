@@ -3,7 +3,7 @@ from typing import Optional
 
 
 class Settings(BaseSettings):
-    app_name: str = "AI Textile Admin"
+    app_name: str = "StitchSense"
     app_version: str = "1.0.0"
     debug: bool = False
 
